@@ -83,20 +83,15 @@ void main()
         adc_value = read_adc(0);
         an0 = convertToVolt(adc_value);
         display_float(an0);
-        //__delay_ms(10);
         
         WriteCommandToLCD(0x8A);
         adc_value = read_adc(1);
         an1 = convertToVolt(adc_value);
         display_float(an1);
-        //__delay_ms(10);
         
         WriteCommandToLCD(0xC0);
         adc_value = read_adc(2);
         an2 = convertToVolt(adc_value);
         display_float(an2);
-        //__delay_ms(10);
-        
-        //ClearLCDScreen();
     }
 }
