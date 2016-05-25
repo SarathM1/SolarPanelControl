@@ -82,16 +82,19 @@ void main()
         WriteCommandToLCD(0x80);
         adc_value = read_adc(0);
         an0 = convertToVolt(adc_value);
+        WriteStringToLCD("S:");
         display_float(an0);
         
-        WriteCommandToLCD(0x8A);
+        WriteCommandToLCD(0x89);
         adc_value = read_adc(1);
         an1 = convertToVolt(adc_value);
+        WriteStringToLCD("B:");
         display_float(an1);
         
         WriteCommandToLCD(0xC0);
         adc_value = read_adc(2);
         an2 = convertToVolt(adc_value);
+        WriteStringToLCD("L:");
         display_float(an2);
     }
 }
