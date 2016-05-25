@@ -31,8 +31,23 @@ void adc_init()
     ADCON0 = 0x81;
 }
 
-int read_adc()
+int read_adc(int channel)
 {
+    switch(channel)
+    {
+        case 0:
+            CHS2 = CHS1 = CHS0 = 0;
+            break;
+        case 1:
+            CHS2 = CHS1 = 0;
+            CHS0 = 1;
+            break;
+        case 2:
+            CHS2 = CHS0 = 0;
+            CHS1 = 1;
+            break;
+    }
+    __delay_ms(10);
     GO_nDONE = 1;
     while(GO_nDONE);
     return ((ADRESH<<2) + (ADRESL>>6));
@@ -58,16 +73,30 @@ void display_float(float val)
 void main()
 {
     int adc_value;
-    float an0;
+    float an0, an1, an2;
     adc_init();
     InitLCD();
     TRISB = 0x00;
     while(1)
     {
-        adc_value = read_adc();
+        WriteCommandToLCD(0x80);
+        adc_value = read_adc(0);
         an0 = convertToVolt(adc_value);
         display_float(an0);
-        __delay_ms(10);
-        ClearLCDScreen();
+        //__delay_ms(10);
+        
+        WriteCommandToLCD(0x8A);
+        adc_value = read_adc(1);
+        an1 = convertToVolt(adc_value);
+        display_float(an1);
+        //__delay_ms(10);
+        
+        WriteCommandToLCD(0xC0);
+        adc_value = read_adc(2);
+        an2 = convertToVolt(adc_value);
+        display_float(an2);
+        //__delay_ms(10);
+        
+        //ClearLCDScreen();
     }
 }
